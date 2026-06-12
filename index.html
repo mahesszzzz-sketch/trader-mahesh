@@ -1,33 +1,232 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>TBML</title>
-        </head>
-        <body>
-            <header>
-                <hl>TBML</hl>
-                <nav>
-                    <ul>
-                       <li><a href="">home</a></li>
-                       <li><a href="">about</a></li>
-                       <li><a href="">contact</a></li>
-                    </ul>
-                </nav>
-            </header>
-            
-            
-            <main>
-                <section>
-                    <h2>HOME</h2>
-                    <p>This is the home page</p>
-                </section>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PORT-INTEL // Cyber Threat & Recon Dashboard</title>
+    <!-- Google Fonts for futuristic monospace text -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Fira+Code:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background overlay elements for grid scanning lines -->
+    <div class="scanlines"></div>
+    <div class="cyber-grid"></div>
 
-                <section>
-                    <h2>ABOUT</h2>
-                    <P>This is the about page</P>
-                </section>    
+    <div class="dashboard-container">
+        <!-- Dashboard Header -->
+        <header class="main-header">
+            <div class="logo-area">
+                <span class="logo-symbol">❖</span>
+                <h1>PORT-INTEL <span class="version-tag">v2.6.b</span></h1>
+            </div>
             
-                </section>
-                     <h2>CONTACT</h2>
-                     <p>this is the contact page</p>
-                </section>
+            <div class="system-status">
+                <button id="btn-browse-source" class="cyber-btn-mini" style="margin-right: 10px; border-color: var(--neon-green); color: var(--neon-green);">💻 INSPECT SOURCE CODE</button>
+                <div class="status-indicator online">
+                    <span class="pulse-dot"></span>
+                    <span class="status-text">SECURE LINK ENGAGED</span>
+                </div>
+                <div class="user-profile">
+                    <span class="profile-label">OPERATOR:</span>
+                    <span class="profile-name">MAHESH</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Dashboard Layout Grid -->
+        <main class="dashboard-grid">
+            
+            <!-- Left Side: Inputs, controls, and concept lookup -->
+            <section class="panel-column">
+                
+                <!-- Panel 1: Target Definition & Recon Profile -->
+                <div class="cyber-panel glassmorphic">
+                    <div class="panel-header">
+                        <span class="panel-tag">RECON.01</span>
+                        <h2>TARGET PARAMETERS</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="input-group">
+                            <label for="target-ip">TARGET IP OR HOSTNAME</label>
+                            <div class="input-wrapper">
+                                <span class="input-prefix">IP://</span>
+                                <input type="text" id="target-ip" value="192.168.1.1" placeholder="e.g. 10.0.0.15 or localhost">
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="scan-type">SCAN PROFILE METHOD</label>
+                            <select id="scan-type">
+                                <option value="syn">TCP SYN Scan (Half-Open Stealth)</option>
+                                <option value="connect">TCP Connect Scan (Full-Open Handshake)</option>
+                                <option value="udp">UDP Port Scan (Connectionless)</option>
+                            </select>
+                        </div>
+
+                        <button id="btn-start-scan" class="cyber-btn btn-primary">
+                            <span class="btn-text">INITIALIZE SCAN</span>
+                            <span class="btn-glitch"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Panel 2: Threat Knowledge Database & Search -->
+                <div class="cyber-panel glassmorphic">
+                    <div class="panel-header">
+                        <span class="panel-tag">INTEL.02</span>
+                        <h2>THREAT DATABASE</h2>
+                    </div>
+                    <div class="panel-body">
+                        <p class="panel-description">Search or click a tag below to inspect common penetration testing terms and defensive mitigations.</p>
+                        
+                        <div class="search-wrapper">
+                            <input type="text" id="search-input" placeholder="Search (e.g. SYN, SQLi, XSS, Nmap, Shodan)...">
+                            <button id="btn-search" class="cyber-btn-mini">SEARCH</button>
+                        </div>
+
+                        <!-- Quick Tags -->
+                        <div class="quick-tags">
+                            <button class="tag-btn" data-keyword="syn">TCP SYN</button>
+                            <button class="tag-btn" data-keyword="connect">TCP Connect</button>
+                            <button class="tag-btn" data-keyword="udp">UDP Scan</button>
+                            <button class="tag-btn" data-keyword="owasp">OWASP Top 10</button>
+                            <button class="tag-btn" data-keyword="shodan">Shodan</button>
+                            <button class="tag-btn" data-keyword="nmap">Nmap</button>
+                        </div>
+
+                        <!-- Info Display Card -->
+                        <div id="intel-display" class="intel-card empty">
+                            <div class="intel-title">Awaiting Query Selection...</div>
+                            <div class="intel-content">Select a tag or enter a term above to load details regarding exploitation, prevention, and network security techniques.</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Side: Terminal Output and Scan Results Grid -->
+            <section class="panel-column col-span-2">
+                
+                <!-- Panel 3: Simulated Threat Console (Terminal) -->
+                <div class="cyber-panel glassmorphic console-panel">
+                    <div class="panel-header">
+                        <span class="panel-tag">CONSOLE.03</span>
+                        <h2>RECON TERMINAL OUTPUT</h2>
+                        <div class="console-actions">
+                            <span class="console-led red-led"></span>
+                            <span class="console-led yellow-led"></span>
+                            <span class="console-led green-led"></span>
+                        </div>
+                    </div>
+                    <div class="panel-body console-body" id="terminal-log">
+                        <div class="terminal-line system-msg">[SYSTEM] Terminal initialized. Ready for command input.</div>
+                        <div class="terminal-line warning-msg">[WARNING] Ensure you possess explicit, authorized permission before testing real targets.</div>
+                        <div class="terminal-line terminal-prompt">PORT-INTEL@SEC-OPERATOR:~$ <span class="blink-cursor">_</span></div>
+                    </div>
+                </div>
+
+                <!-- Panel 4: Identified Active Port Vectors (Results) -->
+                <div class="cyber-panel glassmorphic">
+                    <div class="panel-header">
+                        <span class="panel-tag">VECTORS.04</span>
+                        <h2>SCANNED PORTS ANALYSIS</h2>
+                    </div>
+                    <div class="panel-body table-container">
+                        <table class="vector-table">
+                            <thead>
+                                <tr>
+                                    <th>PORT</th>
+                                    <th>SERVICE</th>
+                                    <th>STATE</th>
+                                    <th>RISK LEVEL</th>
+                                    <th>DEFENSIVE REMEDIATION</th>
+                                </tr>
+                            </thead>
+                            <tbody id="scan-results-body">
+                                <tr>
+                                    <td colspan="5" class="table-empty">No scan active. Initiate a recon scan to populate network target states.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Panel 5: Ethical Hacker Gateway Links -->
+                <div class="cyber-panel glassmorphic">
+                    <div class="panel-header">
+                        <span class="panel-tag">LINKS.05</span>
+                        <h2>EXTERNAL PENETRATION TESTING GATEWAYS</h2>
+                    </div>
+                    <div class="panel-body gateway-links">
+                        <div class="gateway-card" data-url="https://nmap.org" data-target="nmap">
+                            <div class="gateway-name">Nmap Official Project</div>
+                            <div class="gateway-desc">Access official documentation on port scanning commands, NSE scripts, and optimization tricks.</div>
+                            <span class="gateway-arrow">→</span>
+                        </div>
+                        <div class="gateway-card" data-url="https://owasp.org" data-target="owasp">
+                            <div class="gateway-name">OWASP Foundation</div>
+                            <div class="gateway-desc">Browse the ultimate open community for web application security vulnerability standards.</div>
+                            <span class="gateway-arrow">→</span>
+                        </div>
+                        <div class="gateway-card" data-url="https://www.shodan.io" data-target="shodan">
+                            <div class="gateway-name">Shodan Search Engine</div>
+                            <div class="gateway-desc">Examine internet-connected devices, industrial controls, and public port exposure databases.</div>
+                            <span class="gateway-arrow">→</span>
+                        </div>
+                        <div class="gateway-card" data-url="https://attack.mitre.org" data-target="mitre">
+                            <div class="gateway-name">MITRE ATT&CK Matrix</div>
+                            <div class="gateway-desc">Analyze real-world adversary tactics, techniques, and system exploitation procedures.</div>
+                            <span class="gateway-arrow">→</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Panel 6: Cyber Sandbox Browser Portal -->
+        <div class="cyber-panel glassmorphic browser-panel" id="sandbox-panel" style="display: none;">
+            <div class="panel-header">
+                <span class="panel-tag">SANDBOX.06</span>
+                <h2>SECURE SANDBOX WEB VISUALIZER</h2>
+                <div class="browser-actions">
+                    <button id="btn-close-browser" class="cyber-btn-mini">✕ CLOSE</button>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="browser-address-bar">
+                    <span class="address-prefix">SEC-HTTP://</span>
+                    <input type="text" id="browser-url" readonly value="">
+                    <button id="btn-toggle-sandbox" class="cyber-btn-mini btn-accent">TOGGLE EMULATION</button>
+                </div>
+                
+                <div class="browser-viewport-container">
+                    <!-- Standard live iframe -->
+                    <iframe id="browser-iframe" src="" sandbox="allow-scripts allow-same-origin"></iframe>
+                    
+                    <!-- Emulated offline secure view fallback -->
+                    <div id="browser-emulated" class="emulated-viewport" style="display: none;">
+                        <div class="emulated-header-bar">
+                            <span class="emulated-badge">🛡️ LOCAL DECRYPTION DECOY ACTIVE</span>
+                            <p class="emulated-alert-text">Target domain blocks nested iframes via X-Frame-Options policies. Displaying secure offline content.</p>
+                        </div>
+                        <div id="emulated-body" class="emulated-body-content">
+                            <!-- Populated dynamically via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="main-footer">
+            <p><strong>LEGAL AND ETHICAL DISCLAIMER:</strong> This is a secure simulator designed strictly for educational purposes. Performing unauthorized security scans or intrusion testing against networks without written permission is illegal under local cyber laws.</p>
+            <p class="copyright">&copy; 2026 PORT-INTEL // Developed for Mahesh (Cybersecurity Training Portal)</p>
+        </footer>
+    </div>
+
+    <!-- Script connection -->
+    <script src="app.js"></script>
+</body>
+</html>
